@@ -20,8 +20,19 @@ function App() {
   function handleFormSubmit(event) {
     event.preventDefault();
     console.log(campos);
+    send();
   }
 
+  function send() {
+    const formData = new FormData();
+    Object.keys(campos).forEach((key) => formData.append(key, campos[key]));
+    axios
+      .post("/send", formData, {
+        headers: {
+          "Content-Type": `multipart/form-data; boundary=${formData._bondary}`,
+        },
+      })
+      .then((response) => alert(response.data));
   }
 
   return (
